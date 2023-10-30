@@ -1,0 +1,1 @@
+windowAvg({Value Raw}, [Week ASC], ${MovingAvgWindow} - 1, 0)

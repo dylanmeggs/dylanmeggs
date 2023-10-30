@@ -1,0 +1,13 @@
+{Moving Avg}
++
+${NormalRangeStDevs}
+*
+sqrt(
+    abs(
+        windowSum(Value^2, [Period ASC], (${NormalRangeWindow} - 1), 0)
+        - 
+        {Normal Range Index} * windowAvg(Value, [Period ASC], (${NormalRangeWindow} - 1), 0)^2
+    )
+    /
+    {Normal Range Index}
+)

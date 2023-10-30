@@ -1,0 +1,1 @@
+percentDifference({Value}, [Period ASC], -1)

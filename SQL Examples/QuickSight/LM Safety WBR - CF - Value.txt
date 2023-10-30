@@ -1,0 +1,1 @@
+{Raw Value} / ifelse(${ValueAs} = 'DPMO', {Dispatched Packages} / 1000000, 1)

@@ -1,0 +1,27 @@
+name: 'teamname_dbt'
+version: '1.0'
+config-version: 2
+
+profile: 'default'
+
+source-paths: ["models"]
+analysis-paths: ["analysis"]
+test-paths: ["tests"]
+data-paths: ["data"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+target-path: "target"
+clean-targets:
+ - "target"
+ - "dbt_modules"
+
+models:
+  lmts_dbt:
+    org_bie:
+      +materialized: table
+      +schema: team_bie
+      +post-hook:
+        - "GRANT SELECT ON {{ this }} TO GROUP team_bie_ro"
+        - "GRANT SELECT ON {{ this }} TO org_rs_etl_team"
+        - "GRANT SELECT ON {{ this }} TO org_team_qs_ro"

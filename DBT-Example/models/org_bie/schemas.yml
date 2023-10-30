@@ -1,0 +1,121 @@
+version: 2
+
+sources:
+  - name: team_bie
+    tables:
+      - name: dl_excluded_internal_annotations
+      - name: stage_reporting_calendar
+      - name: stage_am_person_op_status
+      - name: stage_routes_summary
+      - name: stage_station_details
+      - name: dl_na_org_root_cause_behavior_mapping
+      - name: dl_ww_org_root_cause_behavior_mapping
+      - name: dl_deleted_sf_cases
+      - name: d_qualtrics_data
+      - name: dl_sla_owner_queues
+      - name: dl_sla_queue_teams
+      - name: stage_opportunities_agg
+  - name: org_spectrum
+    tables:
+      - name: d_infraction_data
+      - name: d_sf_userflow_data
+      - name: d_sf_casehistoryflow
+  - name: stage
+    tables:
+      - name: d_dates
+      - name: am_person
+      - name: o_dwp_regions
+      - name: o_tickets
+      - name: o_reporting_days
+      - name: d_org_block_actuals
+      - name: d_employee_details
+      - name: d_employee_hierarchy_hist
+      - name: am_company
+
+models:
+  - name: dm_escalation_details
+    description: Escalation cases from SalesForce (will include consolidate with ticketing system B at a later date)
+    columns:
+      - name: key
+        description: Unique identifier for escalation dm_escalation_details table
+        tests:
+          - unique
+          - not_null
+      - name: case_number
+        description: Identifier for escalation cases
+        tests:
+          - not_null
+
+  - name: dm_team_2_escalation_details
+    description: Escalation cases from SalesForce for team_2
+    columns:
+      - name: key
+        description: Unique identifier for dm_team_2_escalation_details table
+        tests:
+          - unique
+          - not_null
+      - name: case_number
+        description: Identifier for escalation cases
+        tests:
+          - not_null
+
+  - name: dm_routes_summary
+    description: Dispatched shipments and miles from routes aggregated
+
+  - name: dm_escalation_summary
+    description: Escalation cases aggregated
+
+  - name: dm_reporting_calendar
+    description: Calendar lookup table for reporting time frames
+    columns:
+      - name: calendar_date
+        description: Unique identifier for dm_reporting_calendar table
+        tests:
+          - unique
+          - not_null
+
+  - name: dm_station_details
+    description: Delivery station information
+    columns:
+      - name: station_code
+        description: Unique identifier for stations
+        tests:
+          - unique
+          - not_null
+
+  - name: dm_am_person_details
+    description: Transporter information and status change log
+    columns:
+      - name: id
+        description: Transporter identifier
+        tests:
+          - not_null
+
+  - name: dm_org_incident_details
+    description: Specific Org's Global (WW) Incident Details
+
+  - name: dm_sf_user_details
+    description: SalesForce user information
+    columns:
+      - name: id
+        description: Unique identifier for dm_sf_user_details table
+        tests:
+          - unique
+          - not_null
+
+  - name: dm_sf_case_history_log
+    description: SalesForce case historical change log
+    columns:
+      - name: key
+        description: Unique identifier for dm_sf_case_history_log table
+        tests:
+          - unique
+          - not_null
+
+  - name: dm_company_tenure_details
+    description: Partner company tenure
+    columns:
+      - name: shortcode
+        description: Composite key when linked to region and type
+        tests:
+          - not_null
