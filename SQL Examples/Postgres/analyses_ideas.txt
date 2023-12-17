@@ -1,0 +1,44 @@
+- Truncate event timestamp to hour and display volume of incidents during times of day
+- Bivariate correlation analyses
+- Vehicle type, injury, fatality, hit-and-run, pedestrian vs non-pedestrian, bus vs car vs bike
+
+- Chicago gun statistics in correlation with certain laws being passed? 
+- ISP traffic stop data
+
+
+- Proper database users
+- Learn a few more tricks of the trade with pgadmin, CLI, and Postgres
+- Set up dbt and protect password
+- Try to set up Airflow if free
+- Brush up on Snowflake
+- Python API
+- Python and SQL together for SCFS
+- Pandas practice
+- For Loops and While Loops practice
+- Databricks refresher
+- EC2 and NAT Gateway refreshers
+- Get a clean and highly detailed GitHub repo
+- Get a great artifact list
+- Practice STAR method on the artifact list
+
+
+Refine more professional and scientific responses to the questions from past interviews:
+- What kind of deadlines are you used to? Do you have sharp deadlines? Do they move around a lot? How do you handle that?
+    - Gathering requirements to understand the impact of a project is important in determining which tasks to prioritize
+- What types of reports do you build and why?
+    - I try to keep it as simple as possible to achieve the goal
+    - Reduce chart clutter, keep the filter controls to a minimum
+    - Only one value per line chart... add upper and lower bounds with red and green lines to help show if a change over time is a 'significant' change
+    - Lot of straight forward metrics where we just want to see the values week over week.
+        - Put all of those into a table. Ingest large amounts of information very quickly without getting overloaded by 50+ line charts.
+    - My operations teams tend to want bar charts... they're a lot more correlation analyses than most of our program managers and directors.
+        - If program managers and directors want correlation analyses it's typically within an ad hoc or exploratory analysis, not in a weekly report.
+
+Self service:
+    - I write a lot of wikis... bunch of documentation that I maintain for all of my pipelines and individual reports.
+        - Good self service. As a subject matter expert I get a lot of requests for meetings and side chats. 
+            - I avoid much of that and save time by pointing them to the documentation.
+    - We've also built out self-service SQL code, logic repositories, dashboards. *** refine this it is no good
+            - They're very cumbersom to maintain so you should only do it if it's important enough for you to prioritize.
+    
+    
