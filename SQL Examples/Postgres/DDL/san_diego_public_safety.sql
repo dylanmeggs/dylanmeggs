@@ -79,30 +79,29 @@ SQL state: 58P01
 
 INSERT INTO dmeggs_prod.d_san_diego_collision_events 
 SELECT 
-  report_id 
-, date_time             as event_timestamp_pt
-, date_time::date       as event_date
-, person_role 
-, person_injury_lvl 
-, person_veh_type 
-, veh_type 
-, veh_make 
-, veh_model 
-, police_beat 
-, address_no_primary  
-, address_pd_primary 
-, address_road_primary 
-, address_sfx_primary 
-, address_pd_intersecting 
-, address_name_intersecting 
-, address_sfx_intersecting 
-, violation_section 
-, violation_type 
-, charge_desc 
-, injured
-, killed
-, hit_run_lvl
-, now()                 as dataset_update_timestamp
+  nullif(trim(upper(report_id)),'')                 as report_id
+, nullif(trim(upper(date_time)),'')                 as event_timestamp_pt
+, nullif(trim(upper(date_time::date)),'')           as event_date
+, nullif(trim(upper(person_role)),'')               as person_role
+, nullif(trim(upper(person_injury_lvl)),'')         as person_injury_lvl
+, nullif(trim(upper(veh_type)),'')                  as veh_type
+, nullif(trim(upper(veh_make)),'')                  as veh_make
+, nullif(trim(upper(veh_model)),'')                 as veh_model
+, nullif(trim(upper(police_beat)),'')               as police_beat
+, nullif(trim(upper(address_no_primary)),'')        as address_no_primary
+, nullif(trim(upper(address_pd_primary)),'')        as address_pd_primary
+, nullif(trim(upper(address_road_primary)),'')      as address_road_primary
+, nullif(trim(upper(address_sfx_primary)),'')       as address_sfx_primary
+, nullif(trim(upper(address_pd_intersecting)),'')   as address_pd_intersecting
+, nullif(trim(upper(address_name_intersecting)),'') as address_name_intersecting
+, nullif(trim(upper(address_sfx_intersecting)),'')  as address_sfx_intersecting
+, nullif(trim(upper(violation_section)),'')         as violation_section
+, nullif(trim(upper(violation_type)),'')            as violation_type
+, nullif(trim(upper(charge_desc)),'')               as charge_desc
+, nullif(trim(upper(injured)),'')                   as injured
+, nullif(trim(upper(killed)),'')                    as killed
+, nullif(trim(upper(hit_run_lvl)),'')               as hit_run_lvl
+, now()                                             as dataset_update_timestamp
 FROM stage.d_san_diego_collision_events
 ;
 
@@ -199,7 +198,41 @@ stop_id int
 , perceived_lgbt text
 );
 
+-- Storing raw stage data as text format to prevent future load errors and improve ease of transformations
+-- DROP TABLE 
+CREATE TABLE stage.d_stop_events_sd
 
+(
+stop_id text
+, ori text
+, agency text
+, exp_years text
+, date_stop text
+, time_stop text --time only
+, stopduration text
+, stop_in_response_to_cfs text
+, officer_assignment_key text
+, assignment text
+, intersection text
+, address_block text
+, land_mark text
+, address_street text
+, highway_exit text
+, isschool bool
+, school_name text
+, address_city text
+, beat text
+, beat_name text
+, pid text
+, isstudent text
+, perceived_limited_english text
+, perceived_age text
+, perceived_gender text
+, gender_nonconforming text
+, gend text
+, gend_nc text
+, perceived_lgbt text
+);
 
 --DROP TABLE dmeggs_prod.d_stop_events_sd;
 CREATE TABLE dmeggs_prod.d_stop_events_sd
@@ -239,38 +272,42 @@ stop_id int
 
 
 
+
+
 INSERT INTO dmeggs_prod.d_stop_events_sd 
 SELECT 
-stop_id
-, ori
-, agency
-, exp_years
-, date_stop ::date        as event_date
-, concat(date_stop::text,concat(' ', coalesce(nullif(split_part(trim(time_stop),' ',2),''), '00:00:00')))::timestamp as event_timestamp_pt
-, stopduration
-, stop_in_response_to_cfs
-, officer_assignment_key
-, assignment
-, intersection
-, address_block
-, land_mark
-, address_street
-, highway_exit
-, isschool
-, school_name
-, address_city
-, beat
-, beat_name
-, pid
-, isstudent
-, perceived_limited_english
-, perceived_age
-, perceived_gender
-, gender_nonconforming
-, gend
-, gend_nc
-, perceived_lgbt
-, now()                 as dataset_update_timestamp
+  nullif(trim(upper(stop_id)),'')                   as stop_id
+, nullif(trim(upper(ori)),'')                       as ori
+, nullif(trim(upper(agency)),'')                    as agency
+, nullif(trim(upper(exp_years)),'')                 as exp_years
+, nullif(trim(upper(date_stop ::date)),'')          as event_date
+, concat(date_stop::text,
+  concat(' ',
+  coalesce(nullif(split_part(trim(time_stop),' ',2),''), '00:00:00')))::timestamp as event_timestamp_pt
+, nullif(trim(upper(stopduration)),'')              as stopduration
+, nullif(trim(upper(stop_in_response_to_cfs)),'')   as stop_in_response_to_cfs
+, nullif(trim(upper(officer_assignment_key)),'')    as officer_assignment_key
+, nullif(trim(upper(assignment)),'')                as assignment
+, nullif(trim(upper(intersection)),'')              as intersection
+, nullif(trim(upper(address_block)),'')             as address_block
+, nullif(trim(upper(land_mark)),'')                 as land_mark
+, nullif(trim(upper(address_street)),'')            as address_street
+, nullif(trim(upper(highway_exit)),'')              as highway_exit
+, nullif(trim(upper(isschool)),'')                  as isschool
+, nullif(trim(upper(school_name)),'')               as school_name
+, nullif(trim(upper(address_city)),'')              as address_city
+, nullif(trim(upper(beat)),'')                      as beat
+, nullif(trim(upper(beat_name)),'')                 as beat_name
+, nullif(trim(upper(pid)),'')                       as pid
+, nullif(trim(upper(isstudent)),'')                 as isstudent
+, nullif(trim(upper(perceived_limited_english)),'') as perceived_limited_english
+, nullif(trim(upper(perceived_age)),'')             as perceived_age
+, nullif(trim(upper(perceived_gender)),'')          as perceived_gender
+, nullif(trim(upper(gender_nonconforming)),'')      as gender_nonconforming
+, nullif(trim(upper(gend)),'')                      as gend
+, nullif(trim(upper(gend_nc)),'')                   as gend_nc
+, nullif(trim(upper(perceived_lgbt)),'')            as perceived_lgbt
+, now()                                             as dataset_update_timestamp
 FROM stage.d_stop_events_sd
 ;
 
