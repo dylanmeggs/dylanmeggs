@@ -4,6 +4,15 @@
     )
 }}
 
+/*
+This code, along with the other tables in this directory, are examples spun off of my team's original data 
+infrastructure, which I helped build. We spun up a data mart with dbt and mapping tables in AWS data lake. 
+This was later deprecated in favor of internal orchestration tools. 
+
+We also moved all of our data into different schemas when the org restructured and our BIE+DE teams 
+consolidated. Integrating the two teams was as simple as deprecating the data mart, changing naming 
+conventions, and updating permissions.
+*/
 WITH owner_queues AS (SELECT UPPER(NULLIF(TRIM(owner), '')) AS owner_queue,
                              MIN(transfer_sla)              AS transfer_sla,
                              MIN(email_sla)                 AS email_sla,
