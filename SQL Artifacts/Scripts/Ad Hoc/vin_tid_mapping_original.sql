@@ -12,5 +12,5 @@ JOIN secret_schema.table_b_na tb
 ON tb.vin = ta.vehicle_id
 AND tb.state = ta.state
 
-WHERE transporter_id = 'secret-id'
+WHERE transporter_id = 'id-here'
 ORDER BY start_timestamp DESC

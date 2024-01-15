@@ -46,13 +46,13 @@ CREATE TEMPORARY TABLE acme DISTKEY(scannable_id) as (
     	transport_reason,
         CASE
 		WHEN BUSINESS_TYPE = 'ACME' THEN 'ACME'
-		WHEN BUSINESS_TYPE IN ('Widget', 'ACME Fresh') THEN 'GSF'
+		WHEN BUSINESS_TYPE IN ('Widget', 'ACME X') THEN 'ABC'
 		WHEN BUSINESS_TYPE IS NULL THEN 'NULL'
 		ELSE business_type END AS BUSINESS_TYPE,
 		 CASE
 		    WHEN PROVIDER_TYPE = 'org' THEN 'DA'
 		    WHEN PROVIDER_TYPE = 'AmWidget' THEN 'DP'
-    		WHEN PROVIDER_TYPE = 'IHS' THEN 'IHS'
+    		WHEN PROVIDER_TYPE = 'IHX' THEN 'IHX'
     		WHEN PROVIDER_TYPE IS NULL THEN 'NULL'
     		ELSE PROVIDER_TYPE
 	    END AS PROVIDER_TYPE
@@ -78,21 +78,21 @@ CREATE TEMPORARY TABLE acme DISTKEY(scannable_id) as (
 
 
 
-DROP TABLE IF EXISTS DNR_ACME;
-create temporary table DNR_ACME as (
+DROP TABLE IF EXISTS ABC_ACME;
+create temporary table ABC_ACME as (
 	SELECT
 		DISTINCT 
 		a.tracking_id, 
 		a.fulfillment_transport_id,
     	a.aid,
 		a.delivery_date,
-		a.min_concession_date as dnr_date,
+		a.min_concession_date as abc_date,
 		a.conceded_units,
 		a.total_units_in_pkg,
 		CASE WHEN a.conceded_units = b.total_units_in_pkg THEN 'Y' END AS UNITS,
     	b.total_pkg_price,
     	b.total_pkg_price_base_currency_code,
-		1 as dnr
+		1 as abc
 	FROM
 		(
 		    SELECT
@@ -151,8 +151,8 @@ create temporary table DNR_ACME as (
 
 
 
-DROP TABLE IF EXISTS acme_dnr_ACME;
-create TEMPORARY table acme_dnr_ACME DISTKEY(scannable_id) as (
+DROP TABLE IF EXISTS acme_abc;
+create TEMPORARY table acme_abc DISTKEY(scannable_id) as (
 	SELECT distinct
 		ore_ACME.event_date,
     	address_id,
@@ -168,26 +168,24 @@ create TEMPORARY table acme_dnr_ACME DISTKEY(scannable_id) as (
     	total_pkg_price,
     	total_pkg_price_base_currency_code,
     	PROVIDER_TYPE,
-    	dnr_date,
+    	abc_date,
 		MAX(
 			CASE
-				WHEN dnr.DNR IS NULL THEN 0
+				WHEN abc.xyz IS NULL THEN 0
 				ELSE 1
 			END
-		) AS dnr_flag
+		) AS abc_flag
 	FROM
     (SELECT * FROM acme) as ore_ACME
-    left join DNR_ACME dnr 
-		on ore_ACME.scannable_id = dnr.tracking_id
-		AND ore_ACME.fulfillment_transport_id = dnr.fulfillment_transport_id
+    left join ABC_ACME abc 
+		on ore_ACME.scannable_id = abc.tracking_id
+		AND ore_ACME.fulfillment_transport_id = abc.fulfillment_transport_id
     GROUP BY 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15
     );
     
 
 
-
--- select dnr_flag, count(distinct scannable_id) from
--- Datanet is requiring that I wrap this code in order to use listagg
+-- Orchestration tool requires that I wrap count distinct for use within listagg
 DROP TABLE IF EXISTS final_{TEMPORARY_TABLE_SEQUENCE};
 create TEMPORARY table final_{TEMPORARY_TABLE_SEQUENCE} as (
 
@@ -201,7 +199,7 @@ select
   , count(a.scannable_id) as total_instances
 
 from
-(select * from acme_dnr_ACME where dnr_flag = 1 ) a
+(select * from acme_abc where abc_flag = 1 ) a
 join schema_prod.dim_reporting_calendar rc
     on a.event_date ::DATE = rc.calendar_date
    

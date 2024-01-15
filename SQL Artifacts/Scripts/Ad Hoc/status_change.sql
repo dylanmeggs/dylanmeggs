@@ -1,7 +1,7 @@
--- Used to see who changed DA status
+
 SELECT
        ssct.id,
-       ssct.status                                                                  AS current_am_console_status,
+       ssct.status                                                                  AS current_account_status,
 
        'Date: ' || COALESCE(TRIM(ssct.date_last_modified), '') :: TEXT  || ' | ' ||
        'Status: ' || COALESCE(TRIM(ssct.operational_status), '')        || ' | ' ||
