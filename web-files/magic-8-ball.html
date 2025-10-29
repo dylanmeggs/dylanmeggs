@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dylan 8-Ball</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f8ff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    h1 {
+      color: #0072C6;
+    }
+
+    select, button {
+      padding: 10px 20px;
+      font-size: 16px;
+      margin: 10px;
+      border-radius: 5px;
+      border: 1px solid #0072C6;
+      cursor: pointer;
+      outline: none;
+    }
+
+    button {
+      background-color: #0072C6;
+      color: white;
+      transition: background-color 0.2s ease;
+    }
+
+    button:hover {
+      background-color: #005a9e;
+    }
+
+    #answer {
+      margin-top: 20px;
+      font-size: 20px;
+      font-weight: bold;
+      color: #005a9e;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Dylan Magic 8-Ball</h1>
+
+  <select id="questionSelect">
+    <option value="" disabled selected>Select a question</option>
+    <option value="Should I hire Dylan?">Should I hire Dylan?</option>
+    <option value="Is Dylan the right candidate for my Engineering role?">Is Dylan the right candidate for my Engineering role?</option>
+    <option value="Will Dylan excel in this position?">Will Dylan excel in this position?</option>
+  </select>
+
+  <button id="askButton">Ask the 8-Ball</button>
+
+  <div id="answer"></div>
+
+  <script>
+    const answers = ["Yes", "Absolutely", "Without a Doubt", "Definitely"];
+
+    document.getElementById("askButton").addEventListener("click", function() {
+      const select = document.getElementById("questionSelect");
+      const question = select.value;
+
+      if (!question) {
+        alert("Please select a question first!");
+        return;
+      }
+
+      // Pick a random answer
+      const randomIndex = Math.floor(Math.random() * answers.length);
+      const randomAnswer = answers[randomIndex];
+
+      // Display the answer
+      document.getElementById("answer").textContent = randomAnswer;
+    });
+  </script>
+
+</body>
+</html>

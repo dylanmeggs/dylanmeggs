@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dylan's Magic 8-Ball (Python + SQL Demo)</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f8fc;
+      margin: 0;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h1 {
+      color: #0072C6;
+      margin-bottom: 20px;
+    }
+
+    select, button {
+      padding: 12px 20px;
+      margin: 10px;
+      border-radius: 6px;
+      border: 1px solid #0072C6;
+      font-size: 16px;
+    }
+
+    button {
+      background-color: #0072C6;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    button:hover {
+      background-color: #005a9e;
+    }
+
+    #answer {
+      margin-top: 25px;
+      font-size: 22px;
+      color: #005a9e;
+      font-weight: bold;
+    }
+
+    /* Layout for code sections */
+    .code-container {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      width: 100%;
+      max-width: 1500px;
+      margin-top: 50px;
+    }
+
+    pre {
+      background: #e8f2ff;
+      border-radius: 8px;
+      padding: 20px;
+      overflow-x: auto;
+      font-family: "Courier New", monospace;
+      font-size: 14px;
+      line-height: 1.4;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .sql-block, .python-block {
+      flex: 1;
+      min-width: 30%;
+    }
+
+    .python-block:nth-child(1) { flex: 1; }   /* Basic Python Logic */
+    .sql-block { flex: 1.1; }                 /* SQL Logic slightly wider */
+    .python-block:nth-child(3) { flex: 1.2; } /* Advanced Python Logic slightly larger */
+
+    .block-title {
+      font-weight: bold;
+      color: #0072C6;
+      margin-bottom: 10px;
+      font-size: 16px;
+    }
+
+    @media (max-width: 1000px) {
+      .code-container {
+        flex-direction: column;
+      }
+      .sql-block, .python-block {
+        min-width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Dylan's Magic 8-Ball</h1>
+
+  <p>Select a question:</p>
+  <select id="questionSelect">
+    <option value="" disabled selected>Choose one</option>
+    <option>Should I hire Dylan?</option>
+    <option>Is Dylan the right candidate for my Engineering role?</option>
+    <option>Will Dylan excel in this position?</option>
+  </select>
+
+  <button onclick="ask8Ball()">Ask the 8-Ball</button>
+
+  <div id="answer"></div>
+
+  <!-- Side-by-side code layout -->
+  <div class="code-container">
+
+    <div class="python-block">
+      <div class="block-title">Basic Python Logic</div>
+      <pre>
+# This is a script I wrote for the final project of an Udemy Python course
+# It inspired me to create the webpage you're viewing now
+# This script uses Python classes to create a Magic 8 Ball and export the questions to csv
+
+import sys
+import random
+import csv
+
+class magic8ball:
+    def __init__(self, name):
+        self.__name = name #properties of init method
+        self.__mQuestions = []
+        self.__start_game() #initializing a class calls the start game function
+
+    def __start_game(self):
+        responses = ["IT IS CERTAIN", "YOU MAY RELY ON IT", "AS I SEE IT, YES", "OUTLOOK LOOKS GOOD", "MOST LIKELY", "IT IS DECIDELY SO", "WITHOUT A DOUBT", "YES, DEFINETLY"]
+        questions = True
+        print("Welcome " + self.__name)
+
+        while questions:
+            ques = input("Please ask a question (press enter to exit): ")
+            if ques == "":
+                print("Game ended.")
+                self.__write_questions()
+                sys.exit()
+            else:
+                print(responses[random.randint(0,7)])
+                self.__mQuestions.append(ques)
+# self.__write_questions() adding this here causes duplications. It prints the whole list, so each time you ask a new question, it also writes the old ones again.
+# exiting the program (via enter or any other method) causes it to print the whole list again since I have it included in the first if statement
+
+    def __write_questions(self):
+        file = open("magic_questions.csv", "a", newline="")
+        wrt = csv.writer(file) # wrt is new variable = the csv writer function
+        
+        for x in self.__mQuestions:
+            wrt.writerow([x])
+        file.close()
+      </pre>
+    </div>
+
+    <div class="sql-block">
+      <div class="block-title">SQL Logic</div>
+      <pre>
+-- Table for questions
+CREATE TABLE analytics.magic8_questions (
+    question_id INT IDENTITY(1,1),
+    question_text VARCHAR(255)
+);
+
+INSERT INTO analytics.magic8_questions (question_text)
+VALUES
+('Should I hire Dylan?'),
+('Is Dylan the right candidate for my Engineering role?'),
+('Will Dylan excel in this position?');
+
+-- Table for answers
+CREATE TABLE analytics.magic8_answers (
+    answer_id INT IDENTITY(1,1),
+    question_id INT REFERENCES analytics.magic8_questions(question_id),
+    answer_text VARCHAR(255)
+);
+
+INSERT INTO analytics.magic8_answers (question_id, answer_text)
+SELECT q.question_id, a.answer_text
+FROM analytics.magic8_questions q
+CROSS JOIN (
+    VALUES ('Yes'), ('Absolutely'), ('Without a Doubt'), ('Definitely')
+) AS a(answer_text);
+      </pre>
+    </div>
+
+    <div class="python-block">
+      <div class="block-title">Advanced Python Logic</div>
+      <pre>
+import boto3
+import random
+import time
+
+# Redshift Data API client (IAM role-based)
+client = boto3.client("redshift-data")
+
+cluster_id = "my-redshift-cluster"
+database = "analytics"
+db_user = "awsuser"
+
+# Query questions from Redshift
+query_questions = """
+SELECT question_id, question_text
+FROM analytics.magic8_questions
+ORDER BY question_id;
+"""
+
+response = client.execute_statement(
+    ClusterIdentifier=cluster_id,
+    Database=database,
+    DbUser=db_user,
+    Sql=query_questions
+)
+
+query_id = response["Id"]
+while True:
+    status = client.describe_statement(Id=query_id)
+    if status["Status"] in ["FINISHED", "FAILED", "ABORTED"]:
+        break
+    time.sleep(1)
+
+result = client.get_statement_result(Id=query_id)
+questions = [
+    (row[0].get("longValue"), row[1].get("stringValue"))
+    for row in result["Records"]
+]
+
+# Pick a question
+print("🔮 Magic 8-Ball Questions:")
+for i, (_, q_text) in enumerate(questions, start=1):
+    print(f"{i}. {q_text}")
+
+choice = int(input("\nEnter the number of your question: ")) - 1
+selected_id, selected_question = questions[choice]
+
+# Query answers for that question
+query_answers = f"""
+SELECT answer_text
+FROM analytics.magic8_answers
+WHERE question_id = {selected_id};
+"""
+
+response = client.execute_statement(
+    ClusterIdentifier=cluster_id,
+    Database=database,
+    DbUser=db_user,
+    Sql=query_answers
+)
+
+query_id = response["Id"]
+while True:
+    status = client.describe_statement(Id=query_id)
+    if status["Status"] in ["FINISHED", "FAILED", "ABORTED"]:
+        break
+    time.sleep(1)
+
+result = client.get_statement_result(Id=query_id)
+answers = [row[0].get("stringValue") for row in result["Records"]]
+
+# Pick a random answer
+selected_answer = random.choice(answers)
+print(f"\nYou asked: {selected_question}")
+print(f"The Magic 8-Ball says: ✨ {selected_answer} ✨")
+      </pre>
+    </div>
+  </div>
+
+  <script>
+    const answers = ["Yes", "Absolutely", "Without a Doubt", "Definitely"];
+
+    function ask8Ball() {
+      const question = document.getElementById("questionSelect").value;
+      const answerDiv = document.getElementById("answer");
+
+      if (!question) {
+        answerDiv.textContent = "Please select a question first!";
+        return;
+      }
+
+      // Simulated SQL-based response
+      const randomAnswer = answers[Math.floor(Math.random() * answers.length)];
+      answerDiv.textContent = `"${question}" → ${randomAnswer}`;
+    }
+  </script>
+
+</body>
+</html>
