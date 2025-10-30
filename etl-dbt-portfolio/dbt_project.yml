@@ -1,0 +1,47 @@
+name: 'etl_dbt_portfolio'
+version: '1.0.0'
+
+# Default profile -- defined in profiles.yml (see below)
+profile: 'default'          
+
+# Where your models live
+model-paths: ["models"]
+
+# Default materializations for different folders
+models:
+  etl_dbt_portfolio:
+    staging:
+      +materialized: view          # Staging models as views
+    intermediate:
+      +materialized: table         # Intermediate models as tables
+    marts:
+      +materialized: table         # Final BI-ready models as tables
+
+# Optional: folders for macros, snapshots, seeds, etc.
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+seed-paths: ["data"]
+
+# Optional: custom configurations
+quoting:
+  identifier: true
+  schema: true
+
+
+#The profiles.yml file does not live in your project folder. It lives in your home directory, but I'm including it here for reference.
+#File Location:
+#Mac/Linux = ~/.dbt/profiles.yml
+#Windows = C:\Users\<username>\.dbt\profiles.yml
+
+#File Contents:
+  #default:
+    #target: dev
+    #outputs:
+      #dev:
+        #type: postgres
+        #host: localhost
+        #user: your_db_user
+        #password: your_db_password   # optional if using env vars
+        #port: 5432
+        #dbname: etl_portfolio
+        #schema: public

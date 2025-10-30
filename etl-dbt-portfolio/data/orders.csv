@@ -1,0 +1,4 @@
+order_number,customer_id,driver_id,business_id,order_amount,order_date
+1001,1,1,101,23.50,2023-10-01
+1002,2,2,102,15.00,2023-10-02
+1003,3,3,101,42.25,2023-10-02
