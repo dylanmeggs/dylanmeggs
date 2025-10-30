@@ -150,10 +150,6 @@
       <span class="icon">🔄</span>
       <h3>ETL / Data Pipelines</h3>
     </div>
-    <div class="category-card" data-category="dashboard">
-      <span class="icon">📈</span>
-      <h3>Dashboards & BI Reporting</h3>
-    </div>
   </div>
 
   <div class="projects-container" id="projectsContainer">
@@ -168,6 +164,7 @@
 <script>
   const projects = {
     dataViz: [
+      { name: "This Webpage!", desc: "Wondering how I built this directory? Take a look at the JavaScript, HTML, and CSS.", url: "https://github.com/dylanmeggs/dylanmeggs/blob/main/web-files/portfolio-directory.html"},
       {
         name: "Student Attendance Dashboard",
         desc: "Interactive dashboard showing attendance trends for public school mock datasets. Created as part of an unpaid technical assessment.",
@@ -212,25 +209,6 @@
           ]
        }
     ],
-    dashboard: [
-{
-        name: "Student Attendance Dashboard",
-        desc: "Interactive dashboard showing attendance trends for public school mock datasets. Created as part of an unpaid technical assessment.",
-        images: [
-          "https://dylanmeggs.github.io/dylanmeggs/Images/mindex_qs_1.png",
-          "https://dylanmeggs.github.io/dylanmeggs/Images/mindex_qs_2.png"
-        ]
-      },
-      { name: "Excel Reporting", desc: "Standard WBR template included in Project section of my personal website. These reports were sometimes automated via Power BI and other times through internal orchestration tools.", url: "https://www.dylanmeggs.com/projects" },
-      { name: "Geospatial Data", 
-	desc: "During my time at Uber, tracking the movement of cellphones was a critical part of the job. I leveraged Apache HiveQL and PostreSQL to write queries and generate csv files which were uploaded to Kepler.gl software. From there, I analyzed device speed, location, proximity, and account associations to make decisions. These findings were compiled in JIRA reports and designed in coordination with claims, legal, local law enforcement, and the FBI.",
-	images: [
-          "https://dylanmeggs.github.io/dylanmeggs/Images/uber-example.gif",
-          "https://dylanmeggs.github.io/dylanmeggs/Images/GeoJSON.png",
-          "https://dylanmeggs.github.io/dylanmeggs/Images/kepler-point.png"
-        ]
-      }
-    ]
   };
 
   const cards = document.querySelectorAll('.category-card');
