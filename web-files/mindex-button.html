@@ -3,38 +3,44 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Interactive Fraud Info</title>
+  <title>Attendance Insights</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      margin: 40px;
-      background-color: #f9f9f9;
+      margin: 0;               /* Remove default page padding */
+      background-color: transparent; /* So it blends with QuickSight */
+      padding: 0;
+    }
+
+    .container {
+      position: absolute;      /* Stick to top-left corner */
+      top: 0;
+      left: 0;
+      width: auto;             /* Allow button width to fit content */
+      max-width: 250px;        /* Keep it just a few inches wide */
     }
 
     .collapsible {
       background-color: #0072C6;
       color: white;
       cursor: pointer;
-      padding: 18px;
-      width: 100%;
+      padding: 12px 16px;
+      width: 100%;             /* Fills container width only */
       border: none;
       text-align: left;
       outline: none;
-      font-size: 18px;
+      font-size: 16px;
       border-radius: 5px;
       transition: background-color 0.2s ease;
     }
 
-    .collapsible:hover {
-      background-color: #005a9e;
-    }
-
-    .active {
+    .collapsible:hover,
+    .collapsible.active {
       background-color: #005a9e;
     }
 
     .content {
-      padding: 0 18px;
+      padding: 0 14px;
       max-height: 0;
       overflow: hidden;
       transition: max-height 0.3s ease-out;
@@ -42,19 +48,22 @@
       border-left: 3px solid #0072C6;
       margin-top: 5px;
       border-radius: 0 0 5px 5px;
+      font-size: 14px;
     }
 
     .content p {
-      margin: 15px 0;
+      margin: 10px 0;
     }
   </style>
 </head>
 <body>
 
-  <button type="button" class="collapsible">Click for Information</button>
-  <div class="content">
-    <p>This interactive dashboard displays student attendance data using historical information from the 2019-2022 school years.</p>
-    <p>Students are classified into 3 main categories: Low Risk (Absent 0-5%), At Risk (Absent 5-10%) and <strong>Chronically Absent</strong> (Absent 10% or more).</p>
+  <div class="container">
+    <button type="button" class="collapsible">Click for Information</button>
+    <div class="content">
+      <p>This interactive dashboard displays student attendance data using historical information from the 2019–2022 school years.</p>
+      <p>Students are classified into 3 main categories: Low Risk (Absent 0–5%), At Risk (Absent 5–10%), and <strong>Chronically Absent</strong> (Absent 10% or more).</p>
+    </div>
   </div>
 
   <script>
@@ -64,7 +73,7 @@
         coll[i].addEventListener("click", function() {
           this.classList.toggle("active");
           const content = this.nextElementSibling;
-          if (content.style.maxHeight){
+          if (content.style.maxHeight) {
             content.style.maxHeight = null;
           } else {
             content.style.maxHeight = content.scrollHeight + "px";
@@ -73,3 +82,6 @@
       }
     });
   </script>
+
+</body>
+</html>
