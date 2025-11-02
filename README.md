@@ -1,6 +1,6 @@
 - 👋 Hi, I’m @dylanmeggs
-- 👀 I’m interested in dbt, Airflow, Snowflake, Redshift, Spark, Hive/Hadoop, Kafka, Redshift ML and every other tool that can be used to solve problems for customers
-- 🌱 I’m currently learning Snowflake and Airflow as an alternative to tools used internally at my current employer (Amazon)
+- 👀 I’m interested in dbt, Airflow, Snowflake, Redshift, Spark, Hive/Hadoop, Kafka, Redshift ML and every other data tool that can be used to solve problems for customers
+- 🌱 I’m currently refining my PySpark skills and integration testing all the modern data tools to improve my tech stack (i.e. Snowflake, Airflow, Databricks, AWS, and Azure)
 - 📫 You can reach me via dylan@dylanmeggs.com
 
 <!---
