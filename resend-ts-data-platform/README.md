@@ -1,4 +1,4 @@
-# Resend Trust & Safety – Real-Time Data Platform
+# Trust & Safety – Real-Time Data Platform
 
 ## Overview
 
